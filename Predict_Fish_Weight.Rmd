@@ -61,9 +61,75 @@ summary.out$which[3,]
 
 This summary is showing us that the best regressors to use are Height and Width. 
 
+# Bream
+
+```{r}
+Bream <- filter(allthat,Species=="Bream")
+Bream <- select(Bream,-1)
+```
+
+```{r}
+library(leaps)
+regsubsets.out <-
+    regsubsets(Weight ~ .,
+               data = Bream,
+               nbest = 1,       # 1 best model for each number of predictors
+               nvmax = NULL,    # NULL for no limit on number of variables
+               force.in = NULL, force.out = NULL,
+               method = "exhaustive")
+summary.out <- summary(regsubsets.out)
+as.data.frame(summary.out$outmat)
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
+```
+
+This model is showing us that the best regressors to use are Length 2 and Height in order to find the best results for a fish's weight. 
+
+```{r}
+which.max(summary.out$adjr2)
+```
 
 
+```{r}
+summary.out$which[2,]
+```
+
+This summary shows that the best two variables to use are Lenght 2 and Height.
 
 
+# Smelt
+
+```{r}
+Smelt <- filter(allthat,Species=="Smelt")
+Smelt <- select(Smelt,-1)
+```
 
 
+```{r}
+library(leaps)
+regsubsets.out <-
+    regsubsets(Weight ~ .,
+               data = Smelt,
+               nbest = 1,       # 1 best model for each number of predictors
+               nvmax = NULL,    # NULL for no limit on number of variables
+               force.in = NULL, force.out = NULL,
+               method = "exhaustive")
+summary.out <- summary(regsubsets.out)
+as.data.frame(summary.out$outmat)
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
+```
+
+This regression model shows us that the best regressors to find a fish's weight is Length 2 and Width.
+
+
+```{r}
+which.max(summary.out$adjr2)
+```
+
+
+```{r}
+summary.out$which[2,]
+```
+
+THis summary shows us that the best two variables are Lenght 2 and Width. 
